@@ -12,12 +12,13 @@
     <h1>Conversor de Unidades</h1>
     <form>
         <p>
-            <label for="grados">Grados</label> = <input id="grados" type="text" name="unid_grados">
+            <label for="grados">Grados</label> = <input id="grados" type="number" name="unid_grados" onchange="cambiarDesdeGrados()">
         </p>
         <p>
-            <label for="radianes">Radianes</label> = <input id="radianes" type="text" name="unid_radianes">
+            <label for="radianes">Radianes</label> = <input id="radianes" type="number" name="unid_radianes" onchange="cambiarDesdeRadianes()">
         </p>
     </form>
 </div>
+<script src="./grados_radianes.js"></script>
 </body>
 </html>
