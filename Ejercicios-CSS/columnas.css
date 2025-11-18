@@ -1,0 +1,11 @@
+#tituloPrincipal {
+    color: red;
+}
+
+.tituloNoticia {
+    font-size: 24px;
+}
+
+body {
+    font-family: 'Comic Sans MS', sans-serif;
+}
