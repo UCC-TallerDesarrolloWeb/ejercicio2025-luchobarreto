@@ -5,3 +5,15 @@
 .subitems {
     list-style-type: lower-alpha;
 }
+
+a:hover {
+    font-size: 24px;
+}
+
+a:link, a:visited {
+    color: blue;
+}
+
+a:active {
+    font-weight: bold;
+}
