@@ -9,9 +9,14 @@ const searchForm = document.getElementById('search-form');
 const clearFiltersButton = document.getElementById('clear-filters');
 const brandSelect = document.getElementById('brand-select');
 const cartCounter = document.getElementById('cart-counter');
+const checkoutContainer = document.getElementById('checkout-container');
 
 const buildImageSource = (imageName) => `./images/${imageName}`;
 const buildDialog = () => `<dialog id="modal"></dialog>`;
+const buildPriceLocale = (val) => new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS"
+}).format(val);
 
 const buildDialogInnerHTML = (name, description) => `
     <h2>Detalle del Producto</h2>
@@ -25,10 +30,7 @@ const buildProductHTML = (product) => `
     <img src="${buildImageSource(product.image)}" alt="">
     <p>${product.name}</p>
     <span>
-        ${new Intl.NumberFormat("es-AR", {
-            style: "currency",
-            currency: "ARS"
-        }).format(product.price)}
+        ${buildPriceLocale(product.price)}
     </span>
     <button onclick="showModal('${product.name}', '${product.description}')" class="btn-white mt-auto">
         Ver Detalle del Producto
@@ -50,10 +52,7 @@ const buildCartProductHTML = (productCart) => `
         <img src="${buildImageSource(productCart.image)}" alt="">
         <p>${productCart.name}</p>
         <span>
-            ${new Intl.NumberFormat("es-AR", {
-                style: "currency",
-                currency: "ARS"
-            }).format(productCart.price)}
+            ${buildPriceLocale(productCart.price)}
         </span>
         <span>Unidades: ${productCart.units}</span>
         <button onclick="addToCart('${productCart.id}')" class="mt-auto">
@@ -63,6 +62,15 @@ const buildCartProductHTML = (productCart) => `
             ${productCart.units < 2 ? 'Eliminar del carrito' : 'Eliminar una unidad'}
         </button>
     </div>
+`;
+
+const buildCheckoutProductHTML = (productCart) => `
+    <p>
+        <b>Producto:</b> ${productCart.name}<br/>
+        <b>Precio:</b> ${productCart.price}<br/>
+        <b>Cantidad:</b> ${productCart.units}<br/>
+    </p>
+    <hr/>
 `;
 
 let searchQuery = "";
@@ -115,6 +123,30 @@ const renderProducts = () => {
     }
 }
 
+const renderCheckout = () => {
+    if(checkoutContainer) {
+        const rawLocalStorageCart = localStorage.getItem(LOCAL_STORAGE_CART_KEY);
+        if(!rawLocalStorageCart) {
+            checkoutContainer.innerHTML = "-";
+        } else {
+            const currentCart = JSON.parse(rawLocalStorageCart);
+            let checkoutHtml = "";
+            let total = 0;
+            currentCart.forEach(productCart => {
+                checkoutHtml += buildCheckoutProductHTML(productCart);
+                total += productCart.price * productCart.units;
+            });
+            checkoutHtml += `
+                <p>
+                    <b>Total:</b>   
+                    ${buildPriceLocale(total)}
+                </p>
+            `;
+            checkoutContainer.innerHTML = checkoutHtml;
+        }
+    }
+}
+
 const renderCart = () => {
     let productsAmount = 0;
     let cartHtml = "";
@@ -138,6 +170,7 @@ const renderCart = () => {
     if(cartCounter) {
         cartCounter.innerHTML = String(productsAmount);
     }
+    renderCheckout();
 }
 
 const getUniqueBrands = () => {
