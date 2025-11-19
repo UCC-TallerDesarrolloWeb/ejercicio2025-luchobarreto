@@ -12,6 +12,10 @@
 <header>
     ITF Store
 </header>
+<div class="links-container">
+    <a href="productos.html">Catálogo</a>
+    <a href="">Carrito</a>
+</div>
 <aside>
     <fieldset>
         <legend>Búsqueda</legend>
@@ -39,9 +43,16 @@
     </fieldset>
 </aside>
 <main>
+    <dialog id="modal">
+        <h2>Detalle del Producto</h2>
+        <h3>Cabezal Cerrado</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, sequi.</p>
+        <button onclick="hideModal()">Cerrar</button>
+    </dialog>
     <div class="product-container">
         <img src="./images/cabezal-cerrado.webp" alt="">
         <p>Cabezal Cerrado</p>
+        <button onclick="showModal()">Ver Detalle del Producto</button>
     </div>
     <div class="product-container">
         <img src="./images/dobok.webp" alt="">
@@ -64,9 +75,9 @@
         <p>Protectores de Pie</p>
     </div>
 </main>
-<div class="links-container"></div>
 <footer>
     Copyright &copy; ITF Store 2025
 </footer>
+<script src="./productos.js"></script>
 </body>
 </html>

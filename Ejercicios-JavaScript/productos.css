@@ -10,10 +10,20 @@ body {
     display: grid;
     font-family: 'Inter', sans-serif;
     grid-template-areas: 'header header header header'
-                         'aside main main main'
                          'links links links links'
+                         'aside main main main'
                          'footer footer footer footer';
-    gap: 10px;
+}
+
+button {
+    width: 100%;
+    background: #000;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px;
 }
 
 header {
@@ -25,6 +35,30 @@ header {
     font-weight: bold;
 }
 
+.links-container {
+    display: flex;
+    justify-content: center;
+    grid-area: links;
+    padding: 10px 20px;
+    text-align: center;
+    gap: 10px;
+    background: #e1e1e1;
+    margin-bottom: 10px;
+}
+
+.links-container a {
+    font-size: 16px;
+}
+
+.links-container a:link, .links-container a:visited {
+    color: #000;
+    text-decoration: none;
+}
+
+.links-container a:hover {
+    text-decoration: underline;
+}
+
 aside {
     grid-area: aside;
     margin-left: 12px;
@@ -32,6 +66,10 @@ aside {
 
 aside fieldset {
     padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 main {
@@ -39,15 +77,33 @@ main {
     grid-area: main;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: repeat(2, 1fr);
-    margin-right: 12px;
+    margin: 0 12px;
+    gap: 10px;
+}
+
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+}
+
+dialog h2, dialog h3, dialog p {
+    margin-bottom: 10px;
 }
 
 .product-container {
     padding: 14px;
+    border: solid 1px #000;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .product-container > p {
     text-align: center;
+    margin-bottom: 8px;
 }
 
 .product-container > img {
@@ -56,8 +112,8 @@ main {
     object-fit: contain;
 }
 
-.links-container {
-    grid-area: links;
+.product-container > button {
+    margin-top: auto;
 }
 
 footer {
