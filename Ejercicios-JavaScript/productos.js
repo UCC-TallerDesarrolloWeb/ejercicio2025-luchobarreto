@@ -5,9 +5,11 @@ const LOCAL_STORAGE_CART_KEY = "cart";
 const productsWrapper = document.getElementById('products-wrapper');
 const cartWrapper = document.getElementById('cart-wrapper');
 const cleanCartButton = document.getElementById('clean-cart');
+const searchForm = document.getElementById('search-form');
+const clearFiltersButton = document.getElementById('clear-filters');
+const brandSelect = document.getElementById('brand-select');
 
 const buildImageSource = (imageName) => `./images/${imageName}`;
-
 const buildDialog = () => `<dialog id="modal"></dialog>`;
 
 const buildDialogInnerHTML = (name, description) => `
@@ -50,13 +52,52 @@ const buildCartProductHTML = (productCart) => `
     </div>
 `;
 
+let searchQuery = "";
+let minPrice = "";
+let maxPrice = "";
+let protectorsChecked = false;
+let trainingChecked = false;
+let doboksChecked = false;
+let selectedBrand = "";
+
+const filterProducts = (searchQuery, minPrice, maxPrice, protectors, training, doboks, selectedBrand) => {
+    return PRODUCTS.filter(product => {
+        const matchesSearch = searchQuery ? product.name.toLowerCase().includes(searchQuery.toLowerCase()) : true;
+
+        const matchesMinPrice = minPrice ? product.price >= minPrice : true;
+
+        const matchesMaxPrice = maxPrice ? product.price <= maxPrice : true;
+
+        const matchesCategory =
+            (protectors && product.category === 'Protectores') ||
+            (training && product.category === 'Entrenamiento') ||
+            (doboks && product.category === 'Dobok') ||
+            (!protectors && !training && !doboks);
+
+        const matchesBrand = selectedBrand ? product.brand === selectedBrand : true;
+
+        return matchesSearch && matchesMinPrice && matchesMaxPrice && matchesCategory && matchesBrand;
+    });
+};
+
 const renderProducts = () => {
-    if(productsWrapper) {
+    if (productsWrapper) {
+        const filteredProducts = filterProducts(
+            searchQuery,
+            minPrice,
+            maxPrice,
+            protectorsChecked,
+            trainingChecked,
+            doboksChecked,
+            selectedBrand
+        );
+
         let productsHtml = "";
-        PRODUCTS.forEach(p => {
+        filteredProducts.forEach(p => {
             productsHtml += buildProductHTML(p);
         });
         productsHtml += buildDialog();
+
         productsWrapper.innerHTML = productsHtml;
     }
 }
@@ -80,6 +121,23 @@ const renderCart = () => {
         cartWrapper.innerHTML = cartHtml;
     }
 }
+
+const getUniqueBrands = () => {
+    const brands = PRODUCTS.map(product => product.brand);
+    return [...new Set(brands)];
+}
+
+const renderBrands = () => {
+    if(brandSelect) {
+        const uniqueBrands = getUniqueBrands();
+        uniqueBrands.forEach(brand => {
+            const option = document.createElement("option");
+            option.value = brand;
+            option.textContent = brand;
+            brandSelect.appendChild(option);
+        });
+    }
+};
 
 const showModal = (name, description) => {
     const modal = document.getElementById('modal');
@@ -153,6 +211,46 @@ if(cleanCartButton) {
     });
 }
 
+if (searchForm) {
+    searchForm.addEventListener('submit', e => {
+        e.preventDefault();
+
+        searchQuery = document.getElementById('search-input').value;
+        minPrice = document.getElementById('min-price-input').value;
+        maxPrice = document.getElementById('max-price-input').value;
+
+        protectorsChecked = document.getElementById('protectors').checked;
+        trainingChecked = document.getElementById('training').checked;
+        doboksChecked = document.getElementById('doboks').checked;
+
+        selectedBrand = brandSelect.value;
+
+        renderProducts();
+    });
+}
+
+if (clearFiltersButton) {
+    clearFiltersButton.addEventListener('click', () => {
+        searchQuery = "";
+        minPrice = "";
+        maxPrice = "";
+        protectorsChecked = false;
+        trainingChecked = false;
+        doboksChecked = false;
+        selectedBrand = "";
+
+        document.getElementById('search-input').value = "";
+        document.getElementById('min-price-input').value = "";
+        document.getElementById('max-price-input').value = "";
+        document.getElementById('protectors').checked = false;
+        document.getElementById('training').checked = false;
+        document.getElementById('doboks').checked = false;
+        brandSelect.value = "";
+
+        renderProducts();
+    });
+}
+
 window.showModal = showModal;
 window.hideModal = hideModal;
 window.addToCart = addToCart;
@@ -160,6 +258,7 @@ window.removeFromCart = removeFromCart;
 
 const main = () => {
     renderProducts();
+    renderBrands();
     renderCart();
 }
 

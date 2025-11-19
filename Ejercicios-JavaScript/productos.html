@@ -17,30 +17,40 @@
     <a href="./carrito.html">Carrito</a>
 </div>
 <aside>
-    <fieldset>
-        <legend>Búsqueda</legend>
-        <label for="searchInput">Buscar: </label>
-        <input type="text" id="searchInput" name="search" placeholder="Buscar...">
-    </fieldset>
-    <fieldset>
-        <legend>Precios</legend>
-        <label for="minPriceInput">Minimo: </label>
-        <input type="number" name="minPriceInput" id="minPriceInput">
-        <label for="maxPriceInput">Máximo: </label>
-        <input type="number" name="maxPriceInput" id="maxPriceInput">
-    </fieldset>
-    <fieldset>
-        <legend>Tipo de Productos</legend>
-        <label>
-            <input type="checkbox" name="protectores" value="protectores"> Protectores
-        </label>
-        <label>
-            <input type="checkbox" name="Entrenamiento" value="entrenamiento"> Entrenamiento
-        </label>
-        <label>
-            <input type="checkbox" name="doboks" value="doboks"> Doboks
-        </label>
-    </fieldset>
+    <form id="search-form">
+        <fieldset>
+            <legend>Búsqueda</legend>
+            <label for="search-input">Buscar: </label>
+            <input type="text" id="search-input" name="search" placeholder="Buscar...">
+        </fieldset>
+        <fieldset>
+            <legend>Precios</legend>
+            <label for="min-price-input">Mínimo: </label>
+            <input type="number" name="minPriceInput" id="min-price-input">
+            <label for="max-price-input">Máximo: </label>
+            <input type="number" name="maxPriceInput" id="max-price-input">
+        </fieldset>
+        <fieldset>
+            <legend>Categoría</legend>
+            <label>
+                <input type="checkbox" id="protectors" name="protectors" value="protectors"> Protectores
+            </label>
+            <label>
+                <input type="checkbox" id="training" name="training" value="training"> Entrenamiento
+            </label>
+            <label>
+                <input type="checkbox" id="doboks" name="doboks" value="doboks"> Doboks
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Marca</legend>
+            <select id="brand-select">
+                <option value="">Seleccionar Marca</option>
+            </select>
+        </fieldset>
+        <button>Buscar</button>
+    </form>
+    <button class="mt-6 btn-white" id="clear-filters">Limpiar Filtros</button>
 </aside>
 <main id="products-wrapper">
 </main>
