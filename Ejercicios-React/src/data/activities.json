@@ -1,0 +1,20 @@
+{
+  "activities": [
+    {
+      "name": "taekwondo",
+      "description": "Arte marcial coreana",
+      "schedules": [
+        { "day": 2, "startTime": "18:30", "endTime": "20:00" },
+        { "day": 4, "startTime": "18:30", "endTime": "20:00" }
+      ]
+    },
+    {
+      "name": "zumba",
+      "description": "ritmos latinos",
+      "schedules": [
+        { "day": 1, "startTime": "19:30", "endTime": "20:30" },
+        { "day": 3, "startTime": "19:30", "endTime": "20:30" }
+      ]
+    }
+  ]
+}

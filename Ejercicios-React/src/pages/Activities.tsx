@@ -1,31 +1,40 @@
-import { Fragment } from "react";
+import {Fragment, useEffect, useState} from "react";
 import Card from "@components/Card";
 
 interface Props {
     isLoggedIn: boolean;
 }
 
+interface ISchedule {
+    day: number;
+    startTime: string;
+    endTime: string;
+}
 
-const activities = [
-    {
-        name: "taekwondo",
-        description: "Arte marcial coreana",
-        schedules: [
-            { day: 2, startTime: "18:30", endTime: "20:00" },
-            { day: 4, startTime: "18:30", endTime: "20:00" }
-        ]
-    },
-    {
-        name: "zumba",
-        description: "ritmos latinos",
-        schedules: [
-            { day: 1, startTime: "19:30", endTime: "20:30" },
-            { day: 3, startTime: "19:30", endTime: "20:30" }
-        ]
-    }
-];
+export interface IActivity {
+    name: string;
+    description: string;
+    schedules: ISchedule[];
+    isLoggedIn: boolean;
+}
 
 const Activities: React.FC<Props> = ({ isLoggedIn }) => {
+
+    const [activities, setActivities] = useState<IActivity[]>([]);
+
+    useEffect(() => {
+        fetch('http://localhost:4000/activities')
+            .then(res => {
+                if(!res.ok) {
+                    alert("Error al cargar actividades.")
+                    return;
+                }
+                return res.json();
+            })
+            .then((data) => setActivities(data as IActivity[]))
+            .catch(error => console.log(error));
+    }, []);
+
     return (
         <Fragment>
             {activities.map((activity) => (

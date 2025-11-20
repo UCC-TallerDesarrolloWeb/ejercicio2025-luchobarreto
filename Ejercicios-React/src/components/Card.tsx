@@ -1,19 +1,8 @@
 import styled from "styled-components";
 import {Fragment} from "react";
 import {Button} from "@components/Buttons.tsx";
+import type {IActivity} from "@pages/Activities.tsx";
 
-interface ISchedule {
-    day: number;
-    startTime: string;
-    endTime: string;
-}
-
-interface Props {
-    name: string;
-    description: string;
-    schedules: ISchedule[];
-    isLoggedIn: boolean;
-}
 
 const weekDays = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
@@ -38,7 +27,7 @@ const CardDescription = styled.p`
     margin-bottom: 8px;
 `;
 
-const Card: React.FC<Props> = ({
+const Card: React.FC<IActivity> = ({
     name,
     description,
     schedules,
